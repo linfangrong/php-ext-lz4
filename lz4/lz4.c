@@ -57,7 +57,7 @@ lz4_status lz4_uncompressed_length(const char* source_str, long source_length, l
     
     for (;;) {
         memcpy(&compressBytes, source_str + inpBytes, BLOCK_PREFIX_LEN);
-        if (compressBytes <= 0) return LZ4_INVALID_INPUT;
+        if (compressBytes <= 0 || compressBytes > BLOCK_BYTES) return LZ4_INVALID_INPUT;
         outBytes += BLOCK_BYTES;
 
         inpBytes += (BLOCK_PREFIX_LEN+compressBytes);
@@ -92,7 +92,7 @@ lz4_status lz4_uncompress(const char* source_str, long source_length, char* dest
         memset(compressBuf, 0, compressBufMaxLen);
 
         memcpy(&compressBytes, source_str + inpBytes, BLOCK_PREFIX_LEN);
-        if (compressBytes <= 0) goto failure;
+        if (compressBytes <= 0 || compressBytes > BLOCK_BYTES) goto failure;
         memcpy(compressBuf, source_str + inpBytes + BLOCK_PREFIX_LEN, compressBytes);
         compressBufLen = LZ4_decompress_safe_continue(lz4StreamDecode, compressBuf, dest_str+outBytes, compressBytes, BLOCK_BYTES);
         if (compressBufLen <= 0) goto failure;
