@@ -57,7 +57,7 @@ lz4_status lz4_uncompressed_length(const char* source_str, long source_length, l
     
     for (;;) {
         memcpy(&compressBytes, source_str + inpBytes, BLOCK_PREFIX_LEN);
-        if (compressBytes <= 0 || compressBytes > BLOCK_BYTES) return LZ4_INVALID_INPUT;
+        if (compressBytes <= 0) return LZ4_INVALID_INPUT;
         outBytes += BLOCK_BYTES;
 
         inpBytes += (BLOCK_PREFIX_LEN+compressBytes);
