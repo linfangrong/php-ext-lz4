@@ -189,7 +189,7 @@ PHP_FUNCTION(lz4_compress)
 	if (lz4_compress(source_str, source_str_len, dest_str, &dest_str_len) == LZ4_OK) {
 		RETVAL_STRINGL(dest_str, dest_str_len, 1);
 	} else {
-		RETURN_FALSE;
+		RETVAL_FALSE;
 	}
 	efree(dest_str);
 }
@@ -217,7 +217,7 @@ PHP_FUNCTION(lz4_uncompress)
 	if (lz4_uncompress(source_str, source_str_len, dest_str, &dest_str_len) == LZ4_OK) {
 		RETVAL_STRINGL(dest_str, dest_str_len, 1);
 	} else {
-		RETURN_FALSE;
+		RETVAL_FALSE;
 	}
 	efree(dest_str);
 }
